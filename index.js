@@ -9,7 +9,7 @@ var through = require('through2');
  */
 function browserifyAnonymousLabeler(bundler, opt) {
   var isValid = bundler && (typeof bundler === 'object') &&
-    (typeof bundler.on === 'function') && (typeof bundler.pipeline === 'function');
+    (typeof bundler.on === 'function') && (typeof bundler.pipeline === 'object');
   if (isValid) {
     bundler.on('reset', setupPipeline);
     setupPipeline();

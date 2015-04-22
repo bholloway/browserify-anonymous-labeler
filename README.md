@@ -1,7 +1,7 @@
-# Browserify ngInject
+# Browserify anonymous-labeller
 
-[![NPM](https://nodei.co/npm/browserify-nginject.png)](https://github.com/bholloway/browserify-nginject)
+[![NPM](https://nodei.co/npm/browserify-anonymous-labeller.png)](https://github.com/bholloway/browserify-anonymous-labeller)
 
-[![dependencies](https://david-dm.org/bholloway/browserify-nginject.svg)](https://github.com/bholloway/browserify-nginject)
+[![dependencies](https://david-dm.org/bholloway/browserify-anonymous-labeller.svg)](https://github.com/bholloway/browserify-anonymous-labeller)
 
-Browserify transform where explicit `@ngInject` annotation creates preminification `$inject` property.
+A browserify plugin that anonymises filename labels in the browser-pack.
