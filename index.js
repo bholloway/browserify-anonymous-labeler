@@ -8,8 +8,10 @@ var through = require('through2');
  * @param {object} opt An options hash
  */
 function browserifyAnonymousLabeler(bundler, opt) {
-  if (bundler && (typeof bundler === 'object') && ('on' in pipeline) && ('bundler' in pipeline)) {
-    bundler.on('reset', setupPipeline());
+  var isValid = bundler && (typeof bundler === 'object') &&
+    (typeof bundler.on === 'function') && (typeof bundler.pipeline === 'function');
+  if (isValid) {
+    bundler.on('reset', setupPipeline);
     setupPipeline();
   }
   else {

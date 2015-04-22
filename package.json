@@ -1,27 +1,27 @@
 {
-  "name": "browserify-anonymous-labeller",
-  "version": "0.0.1",
+  "name": "browserify-anonymous-labeler",
+  "version": "0.0.2",
   "description": "A browserify plugin that anonymises filename labels in the browser-pack",
   "main": "index.js",
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/bholloway/browserify-anonymous-labeller"
+    "url": "https://github.com/bholloway/browserify-anonymous-labeler"
   },
   "keywords": [
     "browserify",
     "plugin",
     "browserify-plugin",
-    "labeller",
+    "labeler",
     "anonymous",
     "filenames"
   ],
   "author": "bholloway",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bholloway/browserify-anonymous-labeller/issues"
+    "url": "https://github.com/bholloway/browserify-anonymous-labeler/issues"
   },
-  "homepage": "https://github.com/bholloway/browserify-anonymous-labeller",
+  "homepage": "https://github.com/bholloway/browserify-anonymous-labeler",
   "dependencies": {
     "through2": "^0.6.5"
   }
