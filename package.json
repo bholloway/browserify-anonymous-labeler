@@ -1,6 +1,6 @@
 {
   "name": "browserify-anonymous-labeler",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "A browserify plugin that anonymises filename labels in the browser-pack",
   "main": "index.js",
   "scripts": {},

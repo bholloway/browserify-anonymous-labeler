@@ -11,21 +11,12 @@ function browserifyAnonymousLabeler(bundler, opt) {
   var isValid = bundler && (typeof bundler === 'object') &&
     (typeof bundler.on === 'function') && (typeof bundler.pipeline === 'object');
   if (isValid) {
-    bundler.on('reset', setupPipeline);
-    setupPipeline();
-  }
-  else {
-    throw new Error('Expected a browserify bundler instance')
-  }
-
-  /**
-   * Apply the labeler to the pipeline.
-   * @param {object} bundler The browserify bundler instance
-   */
-  function setupPipeline() {
     bundler.pipeline
       .get('label')
       .push(anonymousLabeler());
+  }
+  else {
+    throw new Error('Expected a browserify bundler instance')
   }
 }
 
