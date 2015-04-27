@@ -2,8 +2,11 @@
 
 var through = require('through2');
 
+var processSourceCode = require('./lib/process-source-code');
+
 /**
  * A browserify plugin that anonymises filename labels in the browser-pack.
+ * Presumes well formed source maps with a separate source-map mapping for each require() operand.
  * @param {object} bundler The browserify bundler instance
  * @param {object} opt An options hash
  */
@@ -29,17 +32,24 @@ module.exports = browserifyAnonymousLabeler;
 function anonymousLabeler() {
   function transform(row, encoding, done) {
     /* jshint validthis:true */
-    Object.keys(row.deps)
-      .forEach(function eachDep(key) {
-        var value = row.deps[key];
-        row.deps[String(value)] = value;
-        row.source = row.source
-          .split(key)
-          .join(value);
-        delete row.deps[key];
-      });
+    var replacements = Object.keys(row.deps).reduce(eachDepKey, {});
+    row.source = processSourceCode(row.source, replacements);
     this.push(row);
     done();
+
+    /**
+     * Process each filename key in the <code>row.deps</code> hash and replace it with the value index.
+     * @param {object} replacements A cumulative hash of replacements
+     * @param {string} filename A key in the row.deps hash
+     */
+    function eachDepKey(replacements, filename) {
+      var value  = row.deps[filename];  // value will be an index
+      var newKey = String(value);       // use this index as the new key
+      row.deps[newKey] = value;
+      delete row.deps[filename];
+      replacements[filename] = newKey;
+      return replacements;
+    }
   }
 
   return through.obj(transform);
