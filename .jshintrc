@@ -17,15 +17,9 @@
   "quotmark": "single",
   "undef": true,
   "unused": true,
-  "strict": false,
+  "strict": true,
   "maxparams": 20,
   "maxdepth": 5,
   "maxlen": 120,
-  "esnext": true,
-  "globals": {
-    "angular": false,
-    "module": false,
-    "document": false,
-    "require": false
-  }
+  "node": true
 }

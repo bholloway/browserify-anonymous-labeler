@@ -8,9 +8,8 @@ var processSourceCode = require('./lib/process-source-code');
  * A browserify plugin that anonymises filename labels in the browser-pack.
  * Presumes well formed source maps with a separate source-map mapping for each require() operand.
  * @param {object} bundler The browserify bundler instance
- * @param {object} opt An options hash
  */
-function browserifyAnonymousLabeler(bundler, opt) {
+function browserifyAnonymousLabeler(bundler) {
   var isValid = bundler && (typeof bundler === 'object') &&
     (typeof bundler.on === 'function') && (typeof bundler.pipeline === 'object');
   if (isValid) {
@@ -19,7 +18,7 @@ function browserifyAnonymousLabeler(bundler, opt) {
       .push(anonymousLabeler());
   }
   else {
-    throw new Error('Expected a browserify bundler instance')
+    throw new Error('Expected a browserify bundler instance');
   }
 }
 
