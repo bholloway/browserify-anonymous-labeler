@@ -1,8 +1,11 @@
 'use strict';
 
-var through = require('through2');
+var through = require('through2'),
+    convert = require('convert-source-map');
 
-var processSourceCode = require('./lib/process-source-code');
+var processDeps     = require('./lib/process-dep-key'),
+    sourceReplacer  = require('./lib/source-replacer'),
+    adjustSourceMap = require('./lib/adjust-source-map');
 
 /**
  * A browserify plugin that anonymises filename labels in the browser-pack.
@@ -31,24 +34,25 @@ module.exports = browserifyAnonymousLabeler;
 function anonymousLabeler() {
   function transform(row, encoding, done) {
     /* jshint validthis:true */
-    var replacements = Object.keys(row.deps).reduce(eachDepKey, {});
-    row.source = processSourceCode(row.source, replacements);
+
+    // check for an existing source map
+    var converter   = convert.fromSource(row.source);
+    var originalMap = converter && converter.toObject();
+
+    // make replacements
+    var changes  = processDeps(row.deps);
+    var replacer = sourceReplacer(convert.removeComments(row.source), changes);
+
+    // adjust the original source map
+    var finalMap   = adjustSourceMap(originalMap, replacer.getColumnAfter);
+    var mapComment = finalMap ? convert.fromObject(finalMap).toComment() : '';
+
+    // set the replaced string and its source map comment
+    row.source = replacer.toStringAfter() + mapComment;
+
+    // complete
     this.push(row);
     done();
-
-    /**
-     * Process each filename key in the <code>row.deps</code> hash and replace it with the value index.
-     * @param {object} replacements A cumulative hash of replacements
-     * @param {string} filename A key in the row.deps hash
-     */
-    function eachDepKey(replacements, filename) {
-      var value  = row.deps[filename];  // value will be an index
-      var newKey = String(value);       // use this index as the new key
-      row.deps[newKey] = value;
-      delete row.deps[filename];
-      replacements[filename] = newKey;
-      return replacements;
-    }
   }
 
   return through.obj(transform);
